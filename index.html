@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>英検5級 ドリル Ver19</title></head><body>
+<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>英検5級 ドリル Ver22</title></head><body>
 
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,6 +98,21 @@ h2{font-size:18px;margin:2px 0 0;color:var(--muted)}
 .opt{display:flex;align-items:center;gap:12px;text-align:left;padding:4px 14px;border-radius:16px;border:3px solid var(--line);background:var(--card);font-family:var(--en);font-size:clamp(20px,5.6vw,28px);line-height:1.15;min-height:0}
 .opt .n{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--chip);font-family:var(--jp);font-weight:700;font-size:20px}
 .opt.lock{cursor:default}
+@media (max-height:680px){.sheet.lk .tabs{display:none}.czl{padding:4px 8px}.cz-slot{min-height:32px;min-width:64px}.cz-chip{min-height:36px}}
+.czti{font-weight:800;font-size:1em;margin:0 0 6px}
+.czt{display:flex;flex-direction:column;gap:6px;margin:0 0 8px}
+.czl{display:flex;flex-wrap:wrap;align-items:center;gap:6px 6px;padding:6px 10px;border-radius:12px;background:var(--chip);line-height:1.3;font-size:1em}
+.czk{color:var(--accent)}
+.cz-slot{font:inherit;font-weight:700;min-width:76px;min-height:36px;padding:0 10px;border-radius:10px;border:2.5px dashed var(--accent);background:var(--card);color:inherit}
+.cz-slot.f{border-style:solid;background:var(--card)}
+.cz-slot.ok{border-style:solid;border-color:var(--ok);background:var(--ok-bg)}
+.cz-slot.ng{border-style:solid;border-color:var(--ng);background:var(--ng-bg)}
+.czh{font-size:.8em;font-weight:700;color:var(--muted);margin:0 0 4px}
+.czb{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.cz-chip{font:inherit;font-weight:700;min-height:40px;padding:0 14px;border-radius:12px;border:2px solid var(--accent);background:var(--card);color:var(--accent)}
+.cz-chip[disabled]{opacity:.3;border-color:var(--line);color:inherit}
+.ans{flex:none;font-size:16px;font-weight:700;padding:3px 12px;border-radius:10px;background:var(--ok-bg);border:2px solid var(--ok)}
+.ans b{font-family:var(--en);font-size:1.1em}
 .opt .osp{margin-left:auto;flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--chip);font-size:22px;line-height:1}
 .opt .osp+.mk{margin-left:8px}
 .opt.ok{border-color:var(--ok);background:var(--ok-bg)} .opt.ok .n{background:var(--ok);color:var(--accent-ink)}
@@ -337,7 +352,7 @@ function render(html){ app.innerHTML = html; closeSheet(); requestAnimationFrame
 function home(){
   nextbar(null); $("#ov").hidden = true; run = null; cur = null;
   const done = store.done.length, wrong = store.wrong.length, r = store.run;
-  let h = `<h1>英検5級 ドリル <small>Ver19</small></h1>
+  let h = `<h1>英検5級 ドリル <small>Ver22</small></h1>
   <div class="stats"><div class="stat">正解ずみ <b>${done}</b>/${ALL.length}</div><div class="stat">まちがい <b>${wrong}</b></div></div>${diagLine()}${storageOK ? "" : `<div style="font-size:14px;line-height:1.3;color:var(--ng);font-weight:700">⚠ この端末では自動セーブができません。LINEなどのアプリ内ブラウザやプライベートブラウズではなく、Safariで開いてください。</div>`}`;
   if (r && r.ids && r.ids.length) h += `<button class="btn resume" id="qResume">▶ つづきから<small>${esc(r.title)}　${Math.min(r.i + 1, r.ids.length)} / ${r.ids.length} 問目</small></button>`;
   h += `<div class="row2"><button class="btn" id="qRetry" ${wrong ? "" : "disabled"}>まちがいをやり直す</button><button class="btn alt" id="qRand">ランダム10問</button></div><div class="grid">`;
@@ -393,7 +408,7 @@ function resume(){
 function leave(){ saveRun(); toast("セーブしました"); if (run && run.setNo) setView(run.setNo); else home(); }
 
 /* ---- 知識チェック（ヒント＋2択） ---- */
-function knowHTML(q){
+function knowHTML_old(q){
   if (!q.k || !q.k.length) return "";
   if (!cur.kord) cur.kord = q.k.map(() => shuffle([0, 1])); if (!cur.kans) cur.kans = {};
   const n = q.k.length, ki = Math.min(cur.kidx || 0, n - 1), k = q.k[ki];
@@ -402,7 +417,69 @@ function knowHTML(q){
   return pager + `<div class="klec"><b>💡 ${esc(k.h.replace("📖 ", ""))}</b><div class="lt">${esc(typo(k.l))}</div></div><div class="kq">${esc(typo(k.q))}</div><div class="kopts">` + cur.kord[ki].map(oi => {
     const good = oi === 0, cls = a == null ? "" : good ? "ok" : a === oi ? "ng" : "dim";
     return `<button class="kopt ${cls}" data-ki="${ki}" data-oi="${oi}" ${a != null ? "disabled" : ""}>${a != null && good ? "⭕ " : a === oi && !good ? "❌ " : ""}${esc(typo(opts[oi]))}</button>`;
-  }).join("") + `</div>` + (a != null ? `<div class="kex">${a === 0 ? "⭕ せいかい！ " : "❌ ざんねん。 "}${esc(typo(k.e))}</div>` : "");
+  }).join("") + `</div>` + (a != null ? `<div class="kex">${a === 0 ? "⭕ せいかい！ " : "❌ ざんねん。 "}${esc(typo(k.e))}</div>${a !== 0 ? `<button class="sbtn" data-kre="${ki}" style="margin-top:8px">🔁 もういちど</button>` : ""}` : "");
+}
+
+/* ---- 穴埋め確認（文法ポイントの穴埋め） ---- */
+const CZ = {
+"空所の品詞を考える":{t:"空所の前後で[[品詞]]を決める。\nthe・my・形容詞のあと→[[名詞]]　主語のあと→[[動詞]]\nvery のあと→[[形容詞]]　最後は[[日本語]]にして意味を確かめる。",x:["副詞","前置詞"]},
+"会話は「ひとことのはたらき」で考える":{t:"相手のひとことの[[はたらき]]（お礼・おわび・さそい・すすめ・気づかい）を[[日本語]]で言ってみる。\nそのあと、[[自然につながる]]返事を選ぶ。\n言葉が同じでも、[[場面]]で答えは変わる。",x:["単語の数","文の長さ"]},
+"並べかえの手順":{t:"①日本文を「[[だれが]]／[[どうする]]／[[なにを]]／いつ・どこで」に分ける\n②[[主語]]→[[動詞]]→目的語の順に並べる\n③[[日本語]]に戻して確かめる。",x:["形容詞","ぜんぶ逆順"]},
+"前置詞は「あとのことば」で決まる":{t:"[[曜日]]・日づけ→on　[[月]]・年・季節→in\n[[時刻]]・1点の場所→at　[[乗りもの]]→by\n[[いっしょに]]→with　[[出身]]・〜から→from",x:["動物","色"]},
+"代名詞の4つの形":{t:"〜は→[[主語]]の形（I, he, we…）\n〜の＋名詞→[[持ち主]]の形（my, his…）\n〜を・〜に→[[目的語]]の形（me, him…）\n〜のもの→[[〜のもの]]の形（mine…）\n[[空所の位置]]を見て決める。",x:["過去の形","動詞の形"]},
+"疑問詞の質問は「中身」を答える":{t:"What / Where / Who などの質問は、[[Yes・No]] ではなく[[中身]]（もの・場所・人・数…）を答える。\n疑問詞の意味を[[日本語]]で考えて、[[答えの文]]が合うか確かめる。",x:["動詞の形","天気"]},
+"Yes / No で答える質問":{t:"Do / Is / Can などで始まる質問は、まず[[Yes か No]]で答える。\n答えの文は、質問の[[主語]]を[[代名詞]]（I, he, she, they…）に変え、質問の[[はじめの語]]を使って返す。",x:["過去形","疑問詞"]},
+"疑問詞は「答え」から逆算":{t:"Who→[[人]]　Where→[[場所]]\nWhen→[[時]]　Whose→[[持ち主]]\nHow many→[[数]]　How much→[[ねだん]]\nHow old→[[年れい]]　What time→[[時刻]]",x:["色","天気"]},
+"be動詞は主語で決まる":{t:"主語で決める：I→[[専用]]の形／1人・1つ→[[3人称単数]]用／2人以上・you→[[複数]]用。\nThere 〜 は、[[あとの名詞]]で決める。",x:["過去","前の動詞"]},
+"原形を使う場面":{t:"can / Let's / Please / Don't / do・does のあとの動詞は、いつも[[原形]]（[[s]] も [[ing]] もつけない）。\n[[主語]]が he や she でも、この形は変わらない。",x:["過去形","複数形"]},
+"疑問詞で始まる質問の語順":{t:"[[疑問詞]] ＋ [[do（does）]] ＋ [[主語]] ＋ [[動詞の原形]]。\n主語が1人なら does を使う。",x:["ing形","過去形"]},
+"現在進行形の語順":{t:"[[主語]] → [[be動詞]] → [[ing形]] → そのあとの[[場所や時]]を表す語。",x:["原形","過去形"]},
+"時を表すことばの位置":{t:"every day・now など「[[時]]」のことばは、ふつう[[文の最後]]に置く。\n[[主語]]や[[動詞]]の前には置かない。",x:["文の最初","名詞"]},
+"Yes/No の質問の語順":{t:"[[Do（Does）・Is（Are）・Can]] を文の[[最初]]に置き、そのあとに[[主語]]→[[動詞]]。",x:["最後","形容詞"]},
+"3人称単数の s":{t:"主語が he・she・人の名前など[[1人・1つ]]のとき、[[動詞]]の最後に[[s]]（es）をつける。\ny で終わる語は y を[[i]]に変えて es をつける。",x:["ing","ed"]},
+"現在進行形（今〜している）":{t:"「[[今〜している]]」＝ [[be動詞]]（am/is/are）＋ 動詞の[[ing形]]。\n目印は [[now]]。",x:["原形","yesterday"]},
+"How many / How much":{t:"How many＋[[数えられる]]名詞の[[複数形]]／How much＋[[数えられない]]名詞（water など）。\n[[ねだん]]をきくときも How much。",x:["過去形","動詞"]},
+"意味から選択肢をしぼる":{t:"①[[日本語]]にしてみる ②[[場面]]（いつ・どこ・だれ）から予想 ③選択肢を入れて[[自然]]か確かめる。\n分からない単語があっても、[[ほかの語]]から意味を推理する。",x:["文字数","発音"]}
+};
+function czBuild(h){
+  const R = CZ[h.replace("📖 ", "")]; if (!R) return null;
+  const marks = []; R.t.replace(/\[\[(.+?)\]\]/g, (m, w) => { marks.push(w); return m; });
+  const pick = shuffle(marks.map((_, i) => i)).slice(0, Math.min(4, marks.length)).sort((a, b) => a - b);
+  const ans = pick.map(i => marks[i]);
+  const chips = shuffle([...ans.map((w, b) => ({w, b})), ...R.x.slice(0, 2).map(w => ({w, b: -1}))]);
+  return {R, marks, pick, ans, chips, fill: ans.map(() => null), st: 0, bad: []};
+}
+function czCheck(c){
+  c.bad = []; c.fill.forEach((ci, b) => { if (c.chips[ci].b !== b) c.bad.push(b); });
+  c.st = c.bad.length ? 2 : 1;
+}
+function knowHTML(q){
+  if (!q.k || !q.k.length) return "";
+  cur.cz = cur.cz || {};
+  const n = q.k.length, ki = Math.min(cur.kidx || 0, n - 1), k = q.k[ki];
+  if (!cur.cz[ki]) cur.cz[ki] = czBuild(k.h);
+  const c = cur.cz[ki];
+  const pager = n > 1 ? `<div class="kpg"><button class="sbtn" data-kp="-1" ${ki === 0 ? "disabled" : ""}>◀</button><span>ヒント ${ki + 1} / ${n}</span><button class="sbtn" data-kp="1" ${ki === n - 1 ? "disabled" : ""}>▶</button></div>` : "";
+  if (!c) return pager + `<div class="klec"><b>💡 ${esc(k.h.replace("📖 ", ""))}</b><div class="lt">${esc(typo(k.l))}</div></div>`;
+  let mi = -1;
+  const body = c.R.t.split("\n").filter(x => x.trim()).map(line => {
+    const t = esc(line); let out = "", last = 0, m; const re = /\[\[(.+?)\]\]/g;
+    while ((m = re.exec(t))){
+      if (m.index > last) out += `<span>${t.slice(last, m.index)}</span>`;
+      mi++; const b = c.pick.indexOf(mi), w = m[1];
+      if (b < 0) out += `<b class="czk">${w}</b>`;
+      else { const f = c.fill[b], cls = c.st && f != null ? (c.bad.includes(b) ? "ng" : "ok") : (f != null ? "f" : ""); out += `<button class="cz-slot ${cls}" data-b="${b}">${f != null ? esc(c.chips[f].w) : "　　　"}</button>`; }
+      last = m.index + m[0].length;
+    }
+    if (last < t.length) out += `<span>${t.slice(last)}</span>`;
+    return `<div class="czl">${out}</div>`;
+  }).join("");
+  const used = new Set(c.fill.filter(x => x != null));
+  const bank = c.st === 1 ? "" : `<div class="czh">▼ ことばをえらんで、□にいれよう</div><div class="czb">` + c.chips.map((ch, i) => `<button class="cz-chip" data-c="${i}" ${used.has(i) ? "disabled" : ""}>${esc(ch.w)}</button>`).join("") + `</div>`;
+  const msg = c.st === 1 ? `<div class="kex">⭕ せいかい！ ポイントが おぼえられたね。</div>`
+    : c.st === 2 ? `<div class="kex">❌ ざんねん。赤いところを見なおそう。<br/><button class="sbtn" data-kre="${ki}" style="margin-top:6px">🔁 もういちど</button></div>`
+    : "";
+  return pager + `<div class="czti">💡 ${esc(k.h.replace("📖 ", ""))}</div><div class="czt">${body}</div>${bank}${msg}`;
 }
 
 /* ---- 出題 ---- */
@@ -539,7 +616,8 @@ function record(ok){
   cur.addedRev = !ok && addReview();
   saveRun();
 }
-function advance(){ closeSheet(); if (run.i + 1 < run.qs.length){ run.i++; renderQ(); } else finish(); }
+function kLocked(){ return !!(cur && cur.must && cur.q && cur.q.k && cur.q.k.some((_, i) => !(cur.cz && cur.cz[i] && cur.cz[i].st === 1))); }
+function advance(){ if (kLocked()){ if (!sheetState) openSheet("k", true); toast("確認問題に正解してから、つぎへ進めます"); return; } closeSheet(); if (run.i + 1 < run.qs.length){ run.i++; renderQ(); } else finish(); }
 function setNext(){
   const nx = run.qs[run.i + 1];
   nextbar(!nx ? "けっかを見る ▶" : nx.rev ? "🔁 復習問題へ ▶" : "つぎの問題 ▶", advance, "📖 解説", () => openSheet("n", true));
@@ -591,20 +669,26 @@ function openSheet(tab, verdict){
 }
 function drawSheet(){
   const st = sheetState; if (!st) return; const q = cur.q, sh = $("#sheet");
-  let top = "";
+  let top = "", ans = "";
   if (st.verdict){
     const cn = q.t === "mc" ? cur.opts.indexOf(q.c) + 1 : 0;
-    top = `<div class="vd ${cur.ok ? "ok" : "ng"}">${cur.ok ? "⭕ 正解！" : "❌ ざんねん…"}${q.t === "mc" ? `　正しい答え：<b>${cn} ${esc(typo(q.c))}</b>` : ""}</div>`;
-  } else top = `<div class="vd">💡 ヒント ＋ 2択（点数に入りません）</div>`;
+    top = `<div class="vd ${cur.ok ? "ok" : "ng"}">${cur.ok ? "⭕ 正解！" : "❌ ざんねん…"}</div>`; ans = q.t === "mc" ? `<div class="ans">正しい答え：<b>${cn} ${esc(typo(q.c))}</b></div>` : "";
+  } else top = `<div class="vd">💡 ヒント ＋ 穴埋め（点数に入りません）</div>`;
   const tabs = st.verdict ? `<div class="tabs">` + tabsFor().map(t => `<button class="tab ${t.id === st.tab ? "on" : ""}" data-tab="${t.id}">${t.label}</button>`).join("") + `</div>` : "";
-  sh.innerHTML = `<div class="sh-top">${top}<button class="sbtn" id="shx">✕ とじる</button></div>${tabs}<div class="panel fit ${st.tab === "k" ? "kbox" : ""}" id="panel" data-max="22" data-min="12">${panelHTML(st.tab)}</div>`;
-  sh.hidden = false;
+  sh.innerHTML = `<div class="sh-top">${top}<button class="sbtn" id="shx" ${kLocked() ? "disabled" : ""}>${kLocked() ? "🔒 先に解こう" : "✕ とじる"}</button></div>${ans}${tabs}<div class="panel fit ${st.tab === "k" ? "kbox" : ""}" id="panel" data-max="22" data-min="12">${panelHTML(st.tab)}</div>`;
+  sh.classList.toggle("lk", kLocked()); sh.hidden = false;
   requestAnimationFrame(() => { fit($("#panel")); setTimeout(() => fit($("#panel")), 100); });
 }
 document.addEventListener("click", e => {
   const t = e.target.closest && e.target.closest(".tab");
   if (t && sheetState){ sheetState.tab = t.dataset.tab; drawSheet(); return; }
   if (e.target.closest && e.target.closest("#shx")){ closeSheet(); return; }
+  const kr = e.target.closest && e.target.closest("[data-kre]");
+  if (kr && cur && sheetState){ const c = cur.cz[+kr.dataset.kre]; if (c){ c.bad.forEach(b => c.fill[b] = null); c.bad = []; c.st = 0; } drawSheet(); return; }
+  const cs = e.target.closest && e.target.closest(".cz-slot");
+  if (cs && cur && sheetState){ const c = cur.cz[Math.min(cur.kidx || 0, cur.q.k.length - 1)]; if (c && c.st !== 1){ c.fill[+cs.dataset.b] = null; c.bad = []; c.st = 0; drawSheet(); } return; }
+  const cc = e.target.closest && e.target.closest(".cz-chip");
+  if (cc && cur && sheetState){ const c = cur.cz[Math.min(cur.kidx || 0, cur.q.k.length - 1)]; if (c && c.st !== 1){ const b = c.fill.indexOf(null); if (b >= 0){ c.fill[b] = +cc.dataset.c; if (c.fill.every(x => x != null)) czCheck(c); drawSheet(); } } return; }
   const kp = e.target.closest && e.target.closest("[data-kp]");
   if (kp && cur && sheetState){ cur.kidx = Math.max(0, (cur.kidx || 0) + +kp.dataset.kp); drawSheet(); return; }
   const b = e.target.closest && e.target.closest(".kopt");
@@ -626,7 +710,7 @@ function showMC(fresh){
   $("#stem").innerHTML = stemHTML(q.s, q.c, "ok");
   fit($("#stem"));
   setNext();
-  if (fresh){ overlay(ok); if (!ok){ const me = cur; setTimeout(() => { if (cur === me && !sheetState) openSheet("n", true); }, 1500); } }
+  if (fresh){ overlay(ok); if (!ok){ const me = cur; if (cur.q.k && cur.q.k.length) cur.must = true; setTimeout(() => { if (cur === me && !sheetState) openSheet(cur.must ? "k" : "n", true); }, 1500); } }
 }
 
 function drawSort(){
@@ -655,7 +739,7 @@ function showSort(fresh){
   $("#rightbox").innerHTML = `<div class="right fit" data-max="26" data-min="15">${ok ? "⭕ " : "✔ 正しい文： "}${esc(sentence(q))}</div>`;
   fit($("#rightbox .right"));
   setNext();
-  if (fresh){ overlay(ok); if (!ok){ const me = cur; setTimeout(() => { if (cur === me && !sheetState) openSheet("n", true); }, 1500); } }
+  if (fresh){ overlay(ok); if (!ok){ const me = cur; if (cur.q.k && cur.q.k.length) cur.must = true; setTimeout(() => { if (cur === me && !sheetState) openSheet(cur.must ? "k" : "n", true); }, 1500); } }
 }
 
 /* ---- 結果 ---- */
@@ -697,7 +781,7 @@ function saveView(){
 }
 
 /* ---- フリックで 前・次 ---- */
-function goPrev(){ if (!run || !cur) return; if (run.i > 0 && run.log[run.i - 1]){ run.i--; renderQ(); } else toast("これより前の問題はありません"); }
+function goPrev(){ if (!run || !cur) return; if (kLocked()){ toast("確認問題に正解してから、進めます"); return; } if (run.i > 0 && run.log[run.i - 1]){ run.i--; renderQ(); } else toast("これより前の問題はありません"); }
 function goNext(){ if (!run || !cur) return; if (!cur.done){ toast("こたえてから、つぎへ進めます"); return; } advance(); }
 let sw = null;
 document.addEventListener("touchstart", e => { const t = e.touches[0]; sw = e.touches.length === 1 && t.clientX > 24 && t.clientX < innerWidth - 24 ? {x:t.clientX, y:t.clientY, t:Date.now()} : null; }, {passive:true});
